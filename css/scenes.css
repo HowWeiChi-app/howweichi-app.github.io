@@ -119,13 +119,19 @@
 .sc-scan.is-s .vf s { inset: 6px; }
 
 /* 公告不斷進來 */
-.sc-tick { display: block; overflow: hidden; padding: 0 20px; -webkit-mask-image: linear-gradient(transparent, #000 8%, #000 86%, transparent); mask-image: linear-gradient(transparent, #000 8%, #000 86%, transparent); }
-.tick-t { --h: 106px; display: grid; gap: 10px; animation: feed 14s cubic-bezier(.7, 0, .2, 1) infinite; }
+/* 手機瀏覽器會回收長條移動層畫面外的部分，所以每則公告各自循環，也不用遮罩；上下淡出改用卡片底色蓋住 */
+.scene.sc-tick { display: block; padding: 0; }
+/* 淡出層比裁切範圍多蓋 1px，邊緣才不會露出細線 */
+.sc-tick::before, .sc-tick::after { content: ""; position: absolute; z-index: 2; left: 0; right: 0; pointer-events: none; }
+.sc-tick::before { top: -1px; height: 8%; background: linear-gradient(var(--g) 3px, transparent); }
+.sc-tick::after { bottom: -1px; height: 14%; background: linear-gradient(transparent, var(--g) calc(100% - 3px)); }
+.tick-t { --h: 106px; display: grid; grid-template-rows: 96px; align-content: start; height: 100%; overflow: hidden; padding: 0 20px; }
+.tick-t .nr { grid-area: 1 / 1; transform: translateY(calc(var(--h) * var(--i))); will-change: transform; animation: feed 17.5s cubic-bezier(.7, 0, .2, 1) infinite; animation-delay: calc(var(--i) * -3.5s); }
 .nr { display: grid; grid-template-columns: 38px minmax(0, 1fr); align-items: start; gap: 10px; height: 96px; padding: 13px; }
 .nr > span { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--hi2); color: var(--on-hi2); font-size: 15px; font-weight: 600; }
 .nr small { display: block; color: var(--mid); font-size: 12px; }
 .nr b, .sr b, .ct b { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; font-size: 15px; font-weight: 600; line-height: 1.32; }
-@keyframes feed { 0%, 20% { transform: translateY(calc(var(--h) * -4)); } 25%, 45% { transform: translateY(calc(var(--h) * -3)); } 50%, 70% { transform: translateY(calc(var(--h) * -2)); } 75%, 95% { transform: translateY(calc(var(--h) * -1)); } 100% { transform: none; } }
+@keyframes feed { 0%, 16% { transform: none; } 20%, 36% { transform: translateY(var(--h)); } 40%, 56% { transform: translateY(calc(var(--h) * 2)); } 60%, 76% { transform: translateY(calc(var(--h) * 3)); } 80% { transform: translateY(calc(var(--h) * 4)); } 80.01%, 96% { transform: translateY(calc(var(--h) * -1)); } 100% { transform: none; } }
 
 /* 五所學校 */
 /* 列表以整張卡片的高度置中 */
