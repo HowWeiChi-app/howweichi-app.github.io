@@ -11,4 +11,5 @@ HowWeiChi 開發者官網介紹捲字 JuanGo 和校板 BanGo，並提供下載�
 | `bango/` | 校板 BanGo 介紹頁 |
 | `xiaoban/` | 舊網址，自動導向 `bango/` |
 | `css/` | 網站樣式 |
+| `js/` | 卡片列、輪播和裝置篩選 |
 | `img/` | 圖示和 App 畫面 |
