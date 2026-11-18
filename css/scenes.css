@@ -451,3 +451,16 @@
   .sc-gate span { display: none; }
   .sc-gate .go { display: block; left: auto; right: calc(var(--l) * 20px + 16px); }
 }
+
+/* 所有方形圖示都用 iOS App 圖示的裁切。放在最後，蓋過前面各處的圓角 */
+.glyph, .medal, .st-o, .m-merge i, .gnav__logo img, .hero__icon, .gcard__icon, .close__icon, .ring::before, .sy-o::before, .sy-o::after {
+  border-radius: 0; corner-shape: round; -webkit-mask-box-image: none; mask-border: none;
+  -webkit-mask: var(--ios-icon) center / 100% 100% no-repeat; mask: var(--ios-icon) center / 100% 100% no-repeat;
+}
+/* 遮罩會切掉 box-shadow，這兩個的底色改放在偽元素，陰影和外圈才留得住 */
+.ring, .sy-o { border-radius: 0; background: none; box-shadow: none; }
+.ring { filter: drop-shadow(0 12px 15px rgba(38, 36, 33, .24)); }
+.sy-o { position: relative; isolation: isolate; }
+.ring::before, .sy-o::before, .sy-o::after { content: ""; position: absolute; z-index: -1; }
+.ring::before, .sy-o::after { inset: 0; background: var(--tile); }
+.sy-o::before { inset: -6px; background: var(--g); }
