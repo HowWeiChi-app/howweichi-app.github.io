@@ -56,6 +56,7 @@
       const b = ev.target.closest('button');
       if (!b) return;
       bar.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+      scope.dataset.show = b.dataset.os === 'android' ? 'android' : 'iphone';
       scope.querySelectorAll('.acard[data-os]').forEach(c => { c.hidden = b.dataset.os !== 'all' && !c.dataset.os.includes(b.dataset.os); });
       scope.querySelectorAll('[data-rail]').forEach(r => {
         r.querySelector('.rail__track').scrollLeft = 0;
