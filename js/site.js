@@ -1,4 +1,4 @@
-// 橫向卡片的左右按鈕、焦點卡輪播，以及依裝置篩選卡片
+// 橫向卡片、焦點卡輪播、依裝置篩選、手機選單，以及卡片進入畫面才播放動畫
 (() => {
   document.documentElement.classList.add('js');
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -56,12 +56,59 @@
       const b = ev.target.closest('button');
       if (!b) return;
       bar.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
-      scope.querySelectorAll('[data-os]').forEach(c => { c.hidden = b.dataset.os !== 'all' && !c.dataset.os.includes(b.dataset.os); });
+      scope.querySelectorAll('.acard[data-os]').forEach(c => { c.hidden = b.dataset.os !== 'all' && !c.dataset.os.includes(b.dataset.os); });
       scope.querySelectorAll('[data-rail]').forEach(r => {
         r.querySelector('.rail__track').scrollLeft = 0;
         r.closest('.apprail').hidden = !r.querySelector('[data-os]:not([hidden])');
+        const t = r.querySelector('.rail__track');
+        t.classList.remove('refilter');
+        void t.offsetWidth;
+        t.classList.add('refilter');
         r.update();
       });
     });
   });
+
+  // 卡片在畫面裡才跑動畫，字庫數字從 0 數上去
+  const countUp = el => {
+    const end = +el.dataset.count.replace(/,/g, ''), t0 = performance.now();
+    const tick = now => {
+      const k = Math.min(1, (now - t0) / 1100), v = Math.round(end * (1 - (1 - k) ** 3));
+      el.textContent = v.toLocaleString('en-US');
+      if (k < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+  const seen = new IntersectionObserver(items => items.forEach(({ target, isIntersecting }) => {
+    target.classList.toggle('in', isIntersecting);
+    const n = isIntersecting && !still && target.querySelector('[data-count]:not([data-done])');
+    if (n) { n.dataset.done = '1'; countUp(n); }
+  }), { threshold: .28 });
+  document.querySelectorAll('.gcard, .acard, .router, .more').forEach(el => seen.observe(el));
+
+  // 手機選單：從右上角的按鈕展開，關閉時播完動畫才收起
+  const menu = document.querySelector('.gnav__menu');
+  if (menu) {
+    const button = menu.querySelector('summary'), bar = menu.closest('.gnav');
+    let timer = 0;
+    const setOpen = open => {
+      clearTimeout(timer);
+      button.setAttribute('aria-expanded', String(open));
+      button.setAttribute('aria-label', open ? '關閉選單' : '選單');
+      document.documentElement.classList.toggle('menu-open', open);
+      if (open) {
+        menu.style.setProperty('--menu-h', innerHeight - bar.getBoundingClientRect().top + 'px');
+        menu.open = true;
+        void menu.offsetWidth;
+        menu.classList.add('is-open');
+      } else {
+        menu.classList.remove('is-open');
+        timer = setTimeout(() => { menu.open = false; }, still ? 0 : 480);
+      }
+    };
+    button.addEventListener('click', ev => { ev.preventDefault(); setOpen(!menu.classList.contains('is-open')); });
+    menu.querySelector('.gnav__sheet').addEventListener('click', ev => { if (ev.target.closest('a')) setOpen(false); });
+    addEventListener('keydown', ev => { if (ev.key === 'Escape' && menu.classList.contains('is-open')) { setOpen(false); button.focus(); } });
+    matchMedia('(min-width: 834px)').addEventListener('change', ev => { if (ev.matches && menu.classList.contains('is-open')) setOpen(false); });
+  }
 })();
