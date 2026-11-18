@@ -26,7 +26,38 @@
     addEventListener('resize', update);
     update();
 
-    let timer = 0, seen = false;
+    // 自動輪播：目前這張的動畫播完一輪才換下一張，游標停在卡片上時不倒數
+    let timer = 0, seen = false, shown = 0, left = 0, last = 0, moving = 0;
+    const canHover = matchMedia('(hover: hover)');
+    const cardAnimations = card => card.getAnimations({ subtree: true }).filter(a => a instanceof CSSAnimation);
+    const nearest = () => {
+      const list = cards(), x = track.scrollLeft + list[0].offsetLeft;
+      return list.reduce((best, c, i) => (Math.abs(c.offsetLeft - x) < Math.abs(list[best].offsetLeft - x) ? i : best), 0);
+    };
+    // 循環動畫各項目是錯開播放的，一輪就是一個週期；只播一次的動畫要算到最後一個結束。至少停留 5 秒讓人讀字
+    const playTime = card => cardAnimations(card).reduce((ms, a) => {
+      const t = a.effect.getComputedTiming();
+      return Math.max(ms, t.iterations === Infinity ? t.duration : t.delay + t.duration * t.iterations);
+    }, 5000);
+    const begin = (i, extra = 0) => {
+      const card = cards()[i];
+      shown = i;
+      cardAnimations(card).forEach(a => { a.currentTime = 0; });
+      left = playTime(card) + extra;
+    };
+    function tick() {
+      const now = performance.now(), passed = now - last;
+      last = now;
+      if (!seen || document.hidden) return;
+      if (now > moving && nearest() !== shown) begin(nearest());  // 使用者自己滑到別張
+      if (canHover.matches && track.matches(':hover')) return;
+      left -= passed;
+      if (left > 0) return;
+      const list = cards(), n = atEnd() ? 0 : (shown + 1) % list.length;
+      moving = now + 1000;
+      track.scrollTo({ left: list[n].offsetLeft - list[0].offsetLeft, behavior: 'smooth' });
+      begin(n, 800);  // 多留滑動的時間
+    }
     function stop() {
       clearInterval(timer);
       timer = 0;
@@ -34,15 +65,17 @@
     }
     function play() {
       clearInterval(timer);
-      timer = setInterval(() => {
-        if (!seen || document.hidden) return;
-        if (atEnd()) track.scrollTo({ left: 0, behavior: 'smooth' }); else go(1);
-      }, 6000);
+      last = performance.now();
+      begin(nearest());
+      timer = setInterval(tick, 200);
       pause.setAttribute('aria-pressed', 'false');
       pause.setAttribute('aria-label', '暫停輪播');
     }
     if (pause) {
-      new IntersectionObserver(([e]) => { seen = e.isIntersecting; }, { threshold: .5 }).observe(track);
+      new IntersectionObserver(([e]) => {
+        if (e.isIntersecting && !seen && timer) begin(nearest());
+        seen = e.isIntersecting;
+      }, { threshold: .5 }).observe(track);
       pause.addEventListener('click', () => (timer ? stop() : play()));
       track.addEventListener('pointerdown', stop, { passive: true });
       track.addEventListener('focusin', stop);
