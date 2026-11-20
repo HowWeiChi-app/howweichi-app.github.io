@@ -10,6 +10,6 @@ window.PROMO_CONFIG = {
   "likes": 100,
   "views": 10000,
   "reviewDays": 3,
-  "contactEmail": "",
+  "contactEmail": "howweichi67@gmail.com",
   "instagram": "https://www.instagram.com/howweichi.co"
 };

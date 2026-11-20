@@ -13,7 +13,8 @@
   const guess = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1) ? 'ios' : /Android/.test(ua) ? 'android' : '';
   let platform = guess, app = 'juango';
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const contact = C.contactEmail ? `<a href="mailto:${esc(C.contactEmail)}">${esc(C.contactEmail)}</a>` : `Instagram 私訊 <a href="${esc(C.instagram)}">@howweichi.co</a>`;
+  const ig = `Instagram 私訊 <a href="${esc(C.instagram)}">@howweichi.co</a>`;
+  const contact = C.contactEmail ? `Email <a href="mailto:${esc(C.contactEmail)}">${esc(C.contactEmail)}</a> 或 ${ig}` : ig;
   const preview = P.api.preview ? '<p class="tf__preview">預覽模式：後端還沒接上，代碼是假的。測試連結：?t=demo、?t=expired、?t=redeemed、?t=soldout。</p>' : '';
 
   function storeUrl(p, code, a) {
