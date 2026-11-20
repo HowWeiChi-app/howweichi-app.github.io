@@ -278,7 +278,7 @@ h3 { font: 600 28px/1.25 var(--font-display); }
 /* ------------------------------------------------ footer */
 .foot { padding: 40px 0 24px; background: var(--k); color: #c9c2b0; font-size: 12px; line-height: 1.33; }
 .foot__in { width: min(87.5%, 1260px); margin: auto; }
-.foot__cols { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px 24px; }
+.foot__cols { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 28px 24px; }
 .foot h2 { margin-bottom: 8px; color: var(--y); font: 600 12px/1.33 var(--font-text); }
 .foot a { color: #e9e3d3; display: inline-flex; align-items: center; min-height: 26px; font-size: 12px; }
 .foot__legal { margin-top: 28px; padding-top: 16px; border-top: 1px solid rgba(255, 249, 229, .16); }
@@ -366,3 +366,8 @@ h3 { font: 600 28px/1.25 var(--font-display); }
 .soon__card em { margin-top: auto; padding-top: 20px; color: var(--muted); font-size: 13px; font-style: normal; }
 @media (max-width: 1068px) { .soon { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 734px) { .soon { grid-template-columns: 1fr; gap: 12px; } .soon__card { padding: 24px; } }
+
+/* ------------------------------------------------ 商店徽章（上架後才用，圖檔照 Apple 和 Google 的徽章規範，不改顏色和比例） */
+.badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.badges img { width: auto; height: 48px; }
+.badges--sm img { height: 40px; }

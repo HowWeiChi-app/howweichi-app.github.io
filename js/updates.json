@@ -1,0 +1,13 @@
+{
+  "note": "首頁「最新進度」。新的放最上面；kind 是 發布、更新、進度、公告、活動 其中一個；href 是相對於網站根目錄的網址或完整網址；date 用 YYYY-MM-DD。首頁只顯示前 show 則。",
+  "show": 6,
+  "items": [
+    {"kind": "公告", "title": "隱私權政策、服務條款和支援頁上線", "href": "support/", "date": "2026-11-20"},
+    {"kind": "更新", "title": "捲字 Android 版可以建立和輸入分享代碼", "href": "juango/#add", "date": "2026-11-19"},
+    {"kind": "更新", "title": "捲字更新 App 後不會再被登出", "href": "juango/#sync", "date": "2026-11-19"},
+    {"kind": "進度", "title": "兩個 App 都還沒上架，校板還沒有推播", "href": "bango/#faq", "date": "2026-11-19"},
+    {"kind": "發布", "title": "捲字 JuanGo 0.1.0 測試版", "href": "https://github.com/HowWeiChi-app/JuanGo/releases/tag/v0.1.0", "date": "2026-11-18"},
+    {"kind": "發布", "title": "校板 BanGo 0.1.0 測試版", "href": "https://github.com/HowWeiChi-app/BanGo/releases/tag/v0.1.0", "date": "2026-11-18"},
+    {"kind": "更新", "title": "捲字 Android 版加入帳號與同步", "href": "juango/#sync", "date": "2026-11-18"}
+  ]
+}
