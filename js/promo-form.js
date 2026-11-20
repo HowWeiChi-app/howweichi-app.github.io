@@ -74,8 +74,11 @@ ${P.api.preview ? '<p class="tf__preview">預覽模式：後端還沒接上，�
     const n = ASK.indexOf(q) + 1;
     if (q.type === 'welcome') {
       const over = remaining === 0;
+      const soon = over && C.startsAt && Date.now() < Date.parse(C.startsAt);
       el.setAttribute('aria-label', '活動說明');
-      el.innerHTML = over
+      el.innerHTML = soon
+        ? `<h2 class="tf__title tf__title--lg">活動還沒開始。</h2><p class="tf__hint">${esc(C.startLabel || '')}開放申請，開始時會在 <a href="${esc(C.instagram)}">Instagram</a> 公告。</p>`
+        : over
         ? `<h2 class="tf__title tf__title--lg">活動已結束。</h2><p class="tf__hint">名額都送完了，謝謝大家幫忙介紹。之後有新活動會在 <a href="${esc(C.instagram)}">Instagram</a> 公告。</p>`
         : `<h2 class="tf__title tf__title--lg">發一篇文，免費用一年。</h2>
 <ul class="tf__rules"><li>在 IG 或 Threads 發一則<b>一般貼文</b>，限動不算</li><li>標記 <b>@howweichi.co</b>，內文附上官網連結</li>
@@ -334,7 +337,7 @@ ${P.api.preview ? '<p class="tf__preview">預覽模式：後端還沒接上，�
   P.api.stats().then(s => {
     remaining = Math.max(0, +s.remaining || 0);
     if (s.open === false) remaining = 0;
-    if (left) left.textContent = remaining ? `還剩 ${fmt(remaining)} 名。` : '活動已結束。';
+    if (left) left.textContent = remaining ? `還剩 ${fmt(remaining)} 名。` : C.startsAt && Date.now() < Date.parse(C.startsAt) ? `${C.startLabel || ''}開始。` : '活動已結束。';
     if (QUESTIONS[i].type === 'welcome' || remaining === 0) { if (remaining === 0) i = 0; stage.replaceChildren(); render(); }
   }).catch(() => {
     remaining = undefined;
