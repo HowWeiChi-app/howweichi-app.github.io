@@ -2,17 +2,17 @@
   "note": "首頁「最新進度」。新的放最上面；kind 是 發布、更新、進度、公告、活動 其中一個；href 是相對於網站根目錄的網址或完整網址；slug 是內文頁的名稱（news/<slug>/），新增一則要在 tools/news_articles.py 寫內文，再執行 python3 tools/news.py；date 用 YYYY-MM-DD。首頁只顯示前 show 則。",
   "show": 6,
   "items": [
-    {"slug": "juango-0-2-1", "kind": "發布", "title": "捲字 JuanGo 0.2.1：更新簽名並修復已知錯誤", "href": "news/juango-0-2-1/", "date": "2026-11-23"},
+    {"slug": "juango-0-2-1", "kind": "發布", "title": "捲字 JuanGo 0.2.1(14)：更新簽名並修復已知錯誤", "href": "news/juango-0-2-1/", "date": "2026-11-23"},
     {"slug": "juango-android-signing", "kind": "公告", "title": "捲字 0.2.1(14) Android 版改用正式簽名，建議刪除舊版並重新安裝", "href": "news/juango-android-signing/", "date": "2026-11-25"},
     {"slug": "juango-in-app-update", "kind": "更新", "title": "捲字雙平台皆可在 App 內更新", "href": "news/juango-in-app-update/", "date": "2026-11-23"},
-    {"slug": "juango-0-2-0", "kind": "發布", "title": "捲字 JuanGo 0.2.0：修復已知錯誤並優化性能", "href": "news/juango-0-2-0/", "date": "2026-11-23"},
+    {"slug": "juango-0-2-0", "kind": "發布", "title": "捲字 JuanGo 0.2.0(12)：修復已知錯誤並優化性能", "href": "news/juango-0-2-0/", "date": "2026-11-23"},
     {"slug": "juango-battle-friends-textbook", "kind": "更新", "title": "捲字加入單字對戰、好友和課文書架", "href": "news/juango-battle-friends-textbook/", "date": "2026-11-23"},
     {"slug": "support-and-policies", "kind": "公告", "title": "隱私權政策、服務條款和支援頁上線", "href": "news/support-and-policies/", "date": "2026-11-20"},
     {"slug": "juango-android-share-code", "kind": "更新", "title": "捲字 Android 版可以建立和輸入分享代碼", "href": "news/juango-android-share-code/", "date": "2026-11-19"},
     {"slug": "juango-stay-signed-in", "kind": "更新", "title": "捲字更新 App 後不會再被登出", "href": "news/juango-stay-signed-in/", "date": "2026-11-19"},
     {"slug": "status-2026-11-19", "kind": "進度", "title": "兩個 App 都還沒上架，校板還沒有推播", "href": "news/status-2026-11-19/", "date": "2026-11-19"},
-    {"slug": "juango-0-1-0", "kind": "發布", "title": "捲字 JuanGo 0.1.0 測試版", "href": "news/juango-0-1-0/", "date": "2026-11-18"},
-    {"slug": "bango-0-1-0", "kind": "發布", "title": "校板 BanGo 0.1.0 測試版", "href": "news/bango-0-1-0/", "date": "2026-11-18"},
+    {"slug": "juango-0-1-0", "kind": "發布", "title": "捲字 JuanGo 0.1.0(4) 測試版", "href": "news/juango-0-1-0/", "date": "2026-11-18"},
+    {"slug": "bango-0-1-0", "kind": "發布", "title": "校板 BanGo 0.1.0(1) 測試版", "href": "news/bango-0-1-0/", "date": "2026-11-18"},
     {"slug": "juango-android-account-sync", "kind": "更新", "title": "捲字 Android 版加入帳號與同步", "href": "news/juango-android-account-sync/", "date": "2026-11-18"}
   ]
 }

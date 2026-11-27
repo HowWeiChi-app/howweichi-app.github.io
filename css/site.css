@@ -498,8 +498,7 @@ h3 { font: 600 28px/1.25 var(--font-display); }
 .newgrid .kcard .ktag { display: inline-block; margin: 0 0 0 8px; padding: 4px 11px; border-radius: 999px; border: 1.5px solid currentColor; font-size: 13px; font-weight: 600; line-height: 1.2; opacity: .8; vertical-align: middle; }
 .newgrid .kcard .kicker { vertical-align: middle; }
 /* 課文書架：手機像平放在桌上被拍（往後躺），和校板「公告內頁」的側轉不一樣 */
-.newgrid .ph-tilt { perspective: 1100px; }
-.newgrid .ph-tilt .device { --w: 180px; left: calc(50% - 90px); top: 20px; transform: rotateX(20deg) rotateZ(-8deg); transform-origin: 50% 40%; }
+.newgrid .ph-tilt .device { --w: 180px; left: calc(50% - 90px); top: 20px; }
 /* 對戰兩支：卡片變窄時手機跟著縮，不被切掉 */
 @media (max-width: 1068px) {
   .newgrid .ph-fan2 .device { --w: 190px; }
@@ -542,16 +541,12 @@ h3 { font: 600 28px/1.25 var(--font-display); }
 .newgrid .sc-fan .device:nth-child(2) { left: calc(50% - 90px); top: 40px; }
 .newgrid .sc-fan .device:nth-child(3) { left: calc(50% + 70px); top: 96px; rotate: 6deg; }
 .newgrid .sc-stream .device { --w: 170px; left: 6%; top: 20px; }
-.newgrid .sc-stage > .device { --w: 150px; top: 24px; }
-.newgrid .sc-stage > .device:nth-child(1) { left: 8%; right: auto; }
-.newgrid .sc-stage > .device:nth-child(2) { right: 8%; left: auto; }
 @media (max-width: 1068px) {
   .newgrid .sc-fan .device { --w: 150px; }
   .newgrid .sc-fan .device:nth-child(1) { left: calc(50% - 210px); top: 90px; }
   .newgrid .sc-fan .device:nth-child(2) { left: calc(50% - 75px); }
   .newgrid .sc-fan .device:nth-child(3) { left: calc(50% + 60px); top: 90px; }
   .newgrid .sc-stream .device { --w: 150px; }
-  .newgrid .sc-stage > .device { --w: 130px; }
 }
 @media (max-width: 734px) {
   .newgrid .sc-fan .device { --w: 130px; }

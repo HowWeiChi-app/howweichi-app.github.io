@@ -89,7 +89,7 @@ ${T.preview ? '<p class="tf__preview">預覽模式：後端還沒接上，資料
 <li>打開校板，不用登入就能看公告。免費 Apple ID 每 7 天要重簽一次，資料不會消失。</li></ol>`;
     if (os === 'android') return `<ol class="tf__steps">
 <li>下載完打開 <b>JuanGo-${esc(V.version || '')}.apk</b>，依畫面提示允許安裝未知來源的 App。</li>
-<li>手機裡如果有<b>之前任何版本</b>的捲字（包括 0.2.1 build 13），要先刪掉再裝，因為這版改用正式版簽名。刪除前先登入讓進度同步，或到「設定 › 備份」匯出。</li>
+<li>手機裡如果有<b>之前任何版本</b>的捲字（包括 0.2.1(13)），要先刪掉再裝，因為這版改用正式版簽名。刪除前先登入讓進度同步，或到「設定 › 備份」匯出。</li>
 <li>打開捲字，用 <b>${esc(a.email)}</b> 登入。</li></ol>`;
     return `<ol class="tf__steps">
 <li>下載的 <b>JuanGo-${esc(V.version || '')}.ipa</b> 會存在「檔案」App 的「下載項目」。</li>

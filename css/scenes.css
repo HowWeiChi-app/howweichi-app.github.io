@@ -6,40 +6,34 @@
 .js :is(.acard, .gcard, .router):not(.in) :is(.scene *, .mini *)::after { animation-play-state: paused !important; }
 .mc { border-radius: 18px; corner-shape: squircle; background: var(--sf); color: var(--sf-ink); }
 @supports (corner-shape: squircle) { .mc { border-radius: 30px; } }
-.rv { animation: rv .8s var(--ease) both; animation-delay: calc(var(--i, 0) * .13s + .1s); }
+.rv { animation: rv .8s var(--ease) backwards; animation-delay: calc(var(--i, 0) * .13s + .1s); }
 @keyframes rv { from { opacity: 0; transform: translateY(18px); } }
 @keyframes pop { from { opacity: 0; transform: scale(.4); } }
 .tick { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: square; }
 
 /* 手機的擺放 */
 .sc-ph { display: block; padding: 0; }
-.sc-ph .device { position: absolute; --w: 250px; animation: ph .95s var(--ease) both; }
+.sc-ph .device { position: absolute; --w: 250px; animation: ph .95s var(--ease) backwards; }
 @keyframes ph { from { opacity: 0; translate: 0 72px; } }
 .ph-low .device { --w: 350px; left: calc(50% - 175px); top: 96px; }
-/* 手機本身有透明度動畫也會被壓平，所以淡入放在外層 */
-.ph-tilt { perspective: 900px; animation: phfade .95s var(--ease) both; }
+/* 斜放手機：整支（含機身厚度）預先畫成一張透明圖片 img/shots/tilt/。
+   以前用每支 15 層以上的 3D 圖層疊出厚度，iPhone 兩指放大時每一層都要重畫放大版，記憶體不夠網頁就崩潰。 */
+.ph-tilt { animation: phfade .95s var(--ease) backwards; }
 @keyframes phfade { from { opacity: 0; } }
 @keyframes phrise { from { translate: 0 72px; } }
-/* filter、isolation、clip-path、overflow、opacity 放在這支手機本身都會把 3D 壓平（變紙片），
-   所以這支手機不能用投影，也要把 .device 的 isolation 關掉，機身厚度才看得到；側鍵放在厚度中間 */
-.ph-tilt .dv-b { transform: translateZ(calc(var(--w, 280px) * -.06)); }
-/* 正面每一層都要明確排在側面前面，否則金屬框會被側面蓋住 */
-.ph-tilt .dv-z[style="--z:0"] { background: var(--dv-metal); transform: translateZ(.1px); }
-.ph-tilt .device::before { transform: translateZ(.2px); }
-.ph-tilt .dv-rim { transform: translateZ(.3px); }
-.ph-tilt .device::after { transform: translateZ(.4px); }
-.ph-tilt .device > img { transform: translateZ(.5px); }
-.ph-tilt .dv-cam { transform: translateZ(.6px); }
-.ph-tilt .device { --w: 300px; left: calc(50% - 156px); top: 0; box-shadow: none; filter: none; isolation: auto; transform-style: preserve-3d; transform: rotateY(-30deg) rotateX(7deg) rotateZ(3deg); animation: phrise .95s var(--ease) both; }
+.ph-tilt .device { --w: 300px; left: calc(50% - 156px); top: 0; animation: phrise .95s var(--ease) backwards; }
+.ph-tilt .device.device--shot { background: none; border-radius: 0; box-shadow: none; }
+.ph-tilt .device.device--shot::before, .ph-tilt .device.device--shot::after { content: none; }
+.ph-tilt .device.device--shot > img { position: absolute; left: -30%; top: calc(var(--w, 280px) * -.22); width: 160%; max-width: none; height: auto; border-radius: 0; clip-path: none; }
 .ph-hang .device { --w: 310px; left: calc(50% - 155px); bottom: 24px; animation-name: hang; }
 @keyframes hang { from { opacity: 0; translate: 0 -72px; } }
 .acard--flip .acard__head { margin-top: auto; padding-bottom: 0; }
 .acard--flip { justify-content: flex-end; padding-bottom: 66px; }
 .acard--flip .scene { top: 0; bottom: 236px; overflow: hidden; }
-.fc { position: absolute; z-index: 3; padding: 9px 15px; border-radius: 999px; background: var(--hi); color: var(--on-hi); font-size: 14px; font-weight: 600; line-height: 1.15; white-space: nowrap; box-shadow: 0 8px 22px rgba(38, 36, 33, .22); animation: pop .55s .6s var(--ease) both, bob 3.6s 1.2s ease-in-out infinite alternate; }
+.fc { position: absolute; z-index: 3; padding: 9px 15px; border-radius: 999px; background: var(--hi); color: var(--on-hi); font-size: 14px; font-weight: 600; line-height: 1.15; white-space: nowrap; box-shadow: 0 8px 22px rgba(38, 36, 33, .22); animation: pop .55s .6s var(--ease) backwards, bob 3.6s 1.2s ease-in-out infinite alternate; }
 .fc--a { left: 18px; top: 26px; } .fc--b { right: 18px; top: 34px; } .fc--c { left: 18px; bottom: 58px; } .fc--d { right: 18px; bottom: 66px; }
 @keyframes bob { to { translate: 0 -8px; } }
-.ring { position: relative; display: grid; place-items: center; width: 112px; height: 112px; border-radius: 34px; corner-shape: squircle; background: var(--tile); color: var(--tile-ink); box-shadow: 0 12px 30px rgba(38, 36, 33, .24); animation: pop .6s .4s var(--ease) both; }
+.ring { position: relative; display: grid; place-items: center; width: 112px; height: 112px; border-radius: 34px; corner-shape: squircle; background: var(--tile); color: var(--tile-ink); box-shadow: 0 12px 30px rgba(38, 36, 33, .24); animation: pop .6s .4s var(--ease) backwards; }
 .ring svg { position: absolute; inset: 11px; width: 90px; height: 90px; rotate: -90deg; fill: none; stroke: currentColor; stroke-width: 7; }
 .ring circle:first-child { opacity: .2; }
 .ring__on { stroke-dasharray: 72 100; stroke-linecap: square; animation: ring 6s .5s var(--ease) infinite; }
@@ -50,7 +44,7 @@
 /* 今日學習 */
 .sc-today { justify-items: stretch; gap: 8px; }
 .sc-today .ring { justify-self: start; margin-bottom: 8px; }
-.td { display: grid; grid-template-columns: 34px auto minmax(0, 1fr) 22px; align-items: center; gap: 8px; padding: 11px 13px; animation: rv .7s var(--ease) both; animation-delay: calc(var(--i) * .12s + .25s); }
+.td { display: grid; grid-template-columns: 34px auto minmax(0, 1fr) 22px; align-items: center; gap: 8px; padding: 11px 13px; animation: rv .7s var(--ease) backwards; animation-delay: calc(var(--i) * .12s + .25s); }
 .td small { color: var(--hi2); font-size: 12px; font-weight: 700; }
 .td b { font-size: 17px; }
 .td span { overflow: hidden; color: var(--mid); font-size: 14px; white-space: nowrap; text-overflow: ellipsis; }
@@ -138,7 +132,7 @@
 .scene.sc-schools { position: absolute; top: 0; bottom: 0; gap: 0; justify-items: stretch; align-content: center; padding-inline: 25px; }
 .sch { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; height: 68px; border-top: 1px solid var(--soft); font-size: 25px; text-align: center; }
 .sch b { font-weight: 600; }
-.sch .tick { position: absolute; right: 14px; width: 26px; height: 26px; color: var(--hi); animation: pop .5s var(--ease) both; animation-delay: calc(var(--i) * .2s + .35s); }
+.sch .tick { position: absolute; right: 14px; width: 26px; height: 26px; color: var(--hi); animation: pop .5s var(--ease) backwards; animation-delay: calc(var(--i) * .2s + .35s); }
 .sch-h { position: absolute; left: 13px; right: 13px; top: calc(50% - 170px); height: 68px; border-radius: 16px; background: var(--soft); animation: rowh 10s cubic-bezier(.7, 0, .2, 1) infinite; }
 @keyframes rowh { 0%, 16% { translate: 0 0; } 20%, 36% { translate: 0 68px; } 40%, 56% { translate: 0 136px; } 60%, 76% { translate: 0 204px; } 80%, 96% { translate: 0 272px; } 100% { translate: 0 0; } }
 
@@ -153,7 +147,7 @@
 .lk-n span:first-child { opacity: 1; }
 @keyframes lkn { 0%, 12.5% { opacity: 1; } 14.28%, 100% { opacity: 0; } }
 .lk-s { display: flex; gap: 8px; }
-.lk-s i { width: 24px; height: 24px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 2px var(--g), 0 0 0 3px var(--soft); animation: pop .4s var(--ease) both, swr 14s infinite; animation-delay: calc(var(--i) * .07s), calc(var(--i) * 2s); }
+.lk-s i { width: 24px; height: 24px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 2px var(--g), 0 0 0 3px var(--soft); animation: pop .4s var(--ease) backwards, swr 14s infinite; animation-delay: calc(var(--i) * .07s), calc(var(--i) * 2s); }
 .lk-s i:first-child { box-shadow: 0 0 0 2px var(--g), 0 0 0 4px currentColor; }
 @keyframes swr { 0%, 13% { box-shadow: 0 0 0 2px var(--g), 0 0 0 4px currentColor; } 14.28%, 100% { box-shadow: 0 0 0 2px var(--g), 0 0 0 3px var(--soft); } }
 
@@ -180,11 +174,11 @@
 .cal .now { animation: cell .42s 1.3s var(--ease) both, now 1.6s 1.8s ease-in-out infinite alternate; }
 @keyframes cell { from { opacity: 0; transform: scale(.2); } }
 @keyframes now { to { box-shadow: 0 0 0 4px color-mix(in srgb, var(--r) 28%, transparent); } }
-.medal { display: grid; place-items: center; width: 68px; height: 68px; margin-top: 8px; border-radius: 22px; corner-shape: squircle; background: var(--tile); color: var(--tile-ink); font-size: 32px; animation: pop .55s 1.5s var(--ease) both; }
+.medal { display: grid; place-items: center; width: 68px; height: 68px; margin-top: 8px; border-radius: 22px; corner-shape: squircle; background: var(--tile); color: var(--tile-ink); font-size: 32px; animation: pop .55s 1.5s var(--ease) backwards; }
 
 /* 字庫清單與數字 */
 .sc-shelf { justify-items: stretch; gap: 16px; }
-.sh { display: grid; grid-template-columns: 1fr auto; gap: 6px; animation: rv .7s var(--ease) both; animation-delay: calc(var(--i) * .1s); }
+.sh { display: grid; grid-template-columns: 1fr auto; gap: 6px; animation: rv .7s var(--ease) backwards; animation-delay: calc(var(--i) * .1s); }
 .sh span { font-weight: 600; } .sh b { font-size: 15px; font-weight: 600; }
 .sh i, .sc-count i { grid-column: 1 / -1; height: 10px; background: var(--hi); transform: scaleX(var(--v)); transform-origin: left; animation: bar 1.15s var(--ease) both; animation-delay: calc(var(--i, 0) * .1s + .2s); }
 @keyframes bar { from { transform: scaleX(0); } }
@@ -292,7 +286,7 @@
 /* 分類和公告內頁 */
 .sc-cats { justify-items: stretch; gap: 9px; }
 .ct-c { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 8px; }
-.ct { padding: 12px 14px; animation: rv .7s var(--ease) both; animation-delay: calc(var(--i) * .13s + .25s); }
+.ct { padding: 12px 14px; animation: rv .7s var(--ease) backwards; animation-delay: calc(var(--i) * .13s + .25s); }
 .ct small { color: var(--r); font-size: 12px; font-weight: 700; }
 .pg { grid-area: 1 / 1; width: min(262px, 90%); height: 340px; border-radius: 18px; background: var(--sf2); box-shadow: 0 10px 28px rgba(38, 36, 33, .16); animation: fan 1.1s var(--ease) both; }
 .pg-a { rotate: -9deg; translate: -22px 8px; } .pg-b { rotate: 6deg; translate: 22px 4px; }
@@ -307,31 +301,25 @@
 
 /* 焦點卡的場景：手機放大，超出卡片的部分直接裁掉 */
 .sc-fan { display: block; overflow: visible; }
-.sc-fan .device { position: absolute; --w: min(47%, 236px); animation: ph 1s var(--ease) both; }
+/* 同步：iPhone 和 Android 並排、顯示同一個畫面，大小跟著卡片的寬和高縮放，整支都放得下 */
+.sc-duo { display: flex; justify-content: center; align-items: center; gap: 6cqw; container-type: size; }
+.sc-duo > .device { --w: min(41cqw, 44cqh, 230px); animation: ph 1s var(--ease) backwards; }
+.sc-duo > .device:nth-child(2) { animation-delay: .12s; }
+.sc-fan .device { position: absolute; --w: min(47%, 236px); animation: ph 1s var(--ease) backwards; }
 .sc-fan .device:nth-child(1) { left: 0; top: 128px; rotate: -6deg; animation-delay: .1s; }
 .sc-fan .device:nth-child(2) { left: 27%; top: 46px; z-index: 2; }
 .sc-fan .device:nth-child(3) { right: -5%; top: 160px; rotate: 6deg; animation-delay: .2s; }
-.sc-stage { display: block; overflow: hidden; }
-.sc-stage > .device { position: absolute; top: 18px; --w: min(32%, 296px); animation: ph 1s var(--ease) both; }
-.sc-stage > .device:nth-child(1) { left: 4%; rotate: -4deg; } .sc-stage > .device:nth-child(2) { right: 4%; rotate: 4deg; animation-delay: .12s; }
-.st-c { position: absolute; left: 50%; top: 92px; display: grid; justify-items: center; gap: 12px; width: 92px; margin-left: -46px; }
-.st-o { display: grid; place-items: center; width: 76px; height: 76px; border-radius: 26px; corner-shape: squircle; background: var(--tile); color: var(--tile-ink); }
-.st-o svg { width: 42px; fill: currentColor; animation: spin 9s linear infinite; }
 @keyframes spin { to { rotate: 360deg; } }
-.st-l { display: grid; justify-items: center; font-size: 17px; font-weight: 600; }
-.st-l span { grid-area: 1 / 1; opacity: 0; animation: stl 9s infinite; animation-delay: calc(var(--i) * 3s); }
-.st-l span:first-child { opacity: 1; }
-@keyframes stl { 0%, 30% { opacity: 1; transform: none; } 33%, 97% { opacity: 0; transform: translateY(-6px); } 100% { opacity: 1; } }
 .sc-exam { align-content: center; gap: 14px; padding: 28px 40px 28px 0; }
 .sc-exam .scene { position: static; padding: 0; width: 100%; }
 .ex-y { display: flex; gap: 8px; width: 100%; max-width: 340px; }
-.ex-y span { flex: 1; padding: 12px; border-radius: 18px; corner-shape: squircle; background: var(--soft); text-align: center; animation: rv .7s var(--ease) both, yr 9s infinite; animation-delay: calc(var(--i) * .12s), calc(var(--i) * 3s); }
+.ex-y span { flex: 1; padding: 12px; border-radius: 18px; corner-shape: squircle; background: var(--soft); text-align: center; animation: rv .7s var(--ease) backwards, yr 9s infinite; animation-delay: calc(var(--i) * .12s), calc(var(--i) * 3s); }
 .ex-y span:first-child { background: var(--tile); color: var(--tile-ink); }
 .ex-y b { display: block; font: 600 30px/1 var(--font-display); } .ex-y small { font-size: 12px; }
 .sc-exam .ans-w { width: 100%; max-width: 340px; margin: auto; }
 .sc-levels { display: block; overflow: hidden; }
-.sc-levels .device { position: absolute; right: -7%; top: 34px; --w: min(60%, 290px); rotate: 5deg; animation: ph 1s var(--ease) both; }
-.lv-r { position: absolute; left: 4px; top: 70px; z-index: 2; display: grid; gap: 2px; padding: 14px 18px; border-radius: 22px; corner-shape: squircle; background: var(--k); color: var(--y); animation: pop .55s .5s var(--ease) both; }
+.sc-levels .device { position: absolute; right: -7%; top: 34px; --w: min(60%, 290px); rotate: 5deg; animation: ph 1s var(--ease) backwards; }
+.lv-r { position: absolute; left: 4px; top: 70px; z-index: 2; display: grid; gap: 2px; padding: 14px 18px; border-radius: 22px; corner-shape: squircle; background: var(--k); color: var(--y); animation: pop .55s .5s var(--ease) backwards; }
 .lv-r small { font-size: 13px; font-weight: 600; } .lv-r b { font: 600 30px/1.1 var(--font-display); }
 .lv { --bw: 25px; --gp: 4px; --sx: calc(var(--bw) + var(--gp)); --sy: 46px; position: absolute; left: 4px; bottom: 52px; z-index: 2; display: flex; align-items: flex-end; gap: var(--gp); }
 .lv > i { position: relative; display: grid; place-items: end center; width: var(--bw); height: calc(52px + var(--i) * var(--sy)); padding-bottom: 8px; background: var(--k); color: var(--y); font-style: normal; transform-origin: bottom; animation: lv .7s var(--ease) both; animation-delay: calc(var(--i) * .07s); }
@@ -355,7 +343,7 @@
 .pn u { margin-bottom: 10px; }
 @keyframes pane { 0%, 24% { transform: translateX(0); } 33%, 57% { transform: translateX(-294px); } 66%, 90% { transform: translateX(-588px); } 100% { transform: none; } }
 .sc-stream { display: block; overflow: hidden; }
-.sc-stream .device { position: absolute; left: 1%; top: 40px; --w: min(52%, 244px); rotate: -4deg; animation: ph 1s var(--ease) both; }
+.sc-stream .device { position: absolute; left: 1%; top: 40px; --w: min(52%, 244px); rotate: -4deg; animation: ph 1s var(--ease) backwards; }
 .sr-w { position: absolute; left: 57%; right: 4%; top: 44px; display: grid; gap: 10px; }
 .sr { padding: 12px 14px; animation: sr 8s var(--ease) infinite; animation-delay: calc(var(--i) * .32s); }
 .sr small { color: var(--mid); font-size: 12px; }
@@ -390,7 +378,7 @@
 .m-src u { display: block; height: 6px; background: var(--g); }
 .m-src b { position: absolute; right: -18px; top: -12px; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--on-hi); color: var(--hi); animation: bob 1.8s ease-in-out infinite alternate; }
 
-.more .glyph { animation: pop .55s var(--ease) both; animation-delay: calc(var(--i) * .05s); }
+.more .glyph { animation: pop .55s var(--ease) backwards; animation-delay: calc(var(--i) * .05s); }
 .js .more:not(.in) .glyph { animation-play-state: paused; }
 
 /* 左右排版的卡片變窄時，圖表跟著縮，才不會壓到手機 */
@@ -414,8 +402,6 @@
   .sr-w { left: 49%; right: 3%; top: 16px; gap: 7px; }
   .sr { padding: 9px 11px; }
   .sr:nth-child(n+4) { display: none; }
-  .sc-stage > .device { --w: 40%; top: 14px; } .sc-stage > .device:nth-child(1) { left: -4%; rotate: -2deg; } .sc-stage > .device:nth-child(2) { right: -4%; rotate: 2deg; }
-  .st-c { top: 70px; width: 76px; margin-left: -38px; } .st-o { width: 60px; height: 60px; border-radius: 21px; } .st-o svg { width: 33px; } .st-l { font-size: 15px; }
 }
 @media (max-width: 734px) {
   .scene { top: 176px; bottom: 54px; padding: 0 22px; }
@@ -453,7 +439,7 @@
 }
 
 /* 所有方形圖示都用 iOS App 圖示的裁切。放在最後，蓋過前面各處的圓角 */
-.glyph, .medal, .st-o, .m-merge i, .gnav__logo img, .hero__icon, .gcard__icon, .close__icon, .ring::before, .sy-o::before, .sy-o::after {
+.glyph, .medal, .m-merge i, .gnav__logo img, .hero__icon, .gcard__icon, .close__icon, .ring::before, .sy-o::before, .sy-o::after {
   border-radius: 0; corner-shape: round; -webkit-mask-box-image: none; mask-border: none;
   -webkit-mask: var(--ios-icon) center / 100% 100% no-repeat; mask: var(--ios-icon) center / 100% 100% no-repeat;
 }
