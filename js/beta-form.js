@@ -82,10 +82,11 @@ ${T.preview ? '<p class="tf__preview">預覽模式：後端還沒接上，資料
   function steps(os) {
     if (APP === 'bango') return os === 'android' ? `<ol class="tf__steps">
 <li>下載完打開 <b>BanGo-${T.version}.apk</b>，依畫面提示允許安裝未知來源的 App。需要 64 位元（arm64）手機。</li>
+<li>如果手機裡出現<b>兩個校板</b>，請移除舊的那個。更早的版本套件 ID 不同，不會被覆蓋。</li>
 <li>打開校板，不用登入就能看公告。</li></ol>` : `<ol class="tf__steps">
 <li>下載的 <b>BanGo-${T.version}.ipa</b> 會存在「檔案」App 的「下載項目」。</li>
 <li>用 <a href="https://sideinstaller.net/" target="_blank" rel="noopener">SideInstaller</a> 以自己的 Apple ID 簽名安裝。iOS 27 以上直接在手機上就能裝，iOS 26 要先用電腦做一次配對檔。只從 sideinstaller.net 下載，sideinstaller.com 是假網站。</li>
-<li>打開校板就能看公告。免費 Apple ID 每 7 天要重簽一次。</li></ol>`;
+<li>打開校板，不用登入就能看公告。免費 Apple ID 每 7 天要重簽一次，資料不會消失。</li></ol>`;
     if (os === 'android') return `<ol class="tf__steps">
 <li>下載完打開 <b>JuanGo-${esc(V.version || '')}.apk</b>，依畫面提示允許安裝未知來源的 App。</li>
 <li>手機裡如果有<b>之前任何版本</b>的捲字（包括 0.2.1 build 13），要先刪掉再裝，因為這版改用正式版簽名。刪除前先登入讓進度同步，或到「設定 › 備份」匯出。</li>
