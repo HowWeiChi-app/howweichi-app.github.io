@@ -1,11 +1,40 @@
-// 捲字測試版下載引導（/download/juango/）。一次一題，按 Enter 下一題，單選題可以按字母鍵；填完用一次性連結下載 IPA 或 APK，不用到 GitHub。
+// 捲字和校板測試版下載引導（/download/juango/、/download/bango/），用 data-beta-form="bango" 切換；兩邊不同的文字在 APPS。
+// 一次一題，按 Enter 下一題，單選題可以按字母鍵；填完用一次性連結下載 IPA 或 APK，不用到 GitHub。
 // 改題目只要改 QUESTIONS；檢查規則在 beta-api.js（Edge Function beta-signup 也照同樣的規則再檢查一次）。
 (() => {
   const root = document.querySelector('[data-beta-form]');
   const B = window.Beta;
   if (!root || !B) return;
   const V = B.config;
-  const KEY = 'beta-form-v1';
+  const APP = root.dataset.betaForm === 'bango' ? 'bango' : 'juango';
+  const APPS = {
+    juango: {
+      name: '捲字', file: 'JuanGo', version: V.version || '', key: 'beta-form-v1', page: '/juango/', privacy: '/privacy/#beta',
+      preview: B.preview,
+      emailTitle: '之後登入捲字要用的 Email？',
+      emailHint: '我們會把 Pro 開在用這個 Email 登入的帳號，也會寄通知到這裡。請填你等一下要在 App 裡登入的 Email。',
+      emailRule: '填你之後要<b>登入捲字的 Email</b>，我們會把 Pro 開在這個帳號',
+      use: '開 Pro 和聯絡你',
+      doneHint: email => `我們幫你開好 Pro 後，會寄信到 <b>${email}</b>。`,
+    },
+    bango: {
+      name: '校板', file: 'BanGo', version: '0.1.0', key: 'beta-form-bango-v1', page: '/bango/', privacy: '/privacy/#beta-bango',
+      preview: B.preview || !B.bangoReady,
+      osNote: 'Android 需要 64 位元（arm64）手機。',
+      emailTitle: '你的聯絡 Email？',
+      emailHint: '方便我們聯絡你。校板目前不用登入就能使用。',
+      emailRule: '填一個<b>聯絡用的 Email</b>，校板本身不用登入',
+      use: '聯絡你',
+      doneHint: () => '安裝步驟在下面。',
+    },
+  };
+  const T = APPS[APP];
+  // 校板後端還沒好：正式網站上不顯示假表單，直接給 GitHub 的下載頁
+  if (APP === 'bango' && T.preview && !/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) {
+    root.innerHTML = '<div class="tf__stage"><div class="tf__q"><h2 class="tf__title tf__title--lg">下載表單還沒開放。</h2><p class="tf__hint">目前請到 GitHub 下載校板測試版。</p><div class="tf__act"><a class="btn btn--lg" href="https://github.com/HowWeiChi-app/BanGo/releases">前往下載</a></div></div></div>';
+    return;
+  }
+  const KEY = T.key;
   const still = matchMedia('(prefers-reduced-motion: reduce)');
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   // 從 beta-download 被轉回來時帶 ?link=used|expired|invalid|error；顯示一次後從網址拿掉
@@ -14,11 +43,11 @@
 
   const QUESTIONS = [
     { id: 'welcome', type: 'welcome' },
-    { id: 'source', type: 'choice', title: '你在哪裡知道捲字的？', hint: '選最接近的一個就好。', required: true, options: B.SOURCES },
-    { id: 'email', type: 'email', title: '之後登入捲字要用的 Email？', hint: '我們會把 Pro 開在用這個 Email 登入的帳號，也會寄通知到這裡。請填你等一下要在 App 裡登入的 Email。', required: true,
+    { id: 'source', type: 'choice', title: `你在哪裡知道${T.name}的？`, hint: '選最接近的一個就好。', required: true, options: B.SOURCES },
+    { id: 'email', type: 'email', title: T.emailTitle, hint: T.emailHint, required: true,
       validate: v => B.checkEmail(v) },
     { id: 'nickname', type: 'text', title: '怎麼稱呼你？', hint: `暱稱就好，${B.NAME_MAX} 個字以內。`, required: true, validate: v => B.checkName(v) },
-    { id: 'os', type: 'choice', title: '你用哪一種手機？', hint: `會下載對應的安裝檔。iPhone 需要 iOS ${V.minIos || 26} 以上。`, required: true, options: B.OS },
+    { id: 'os', type: 'choice', title: '你用哪一種手機？', hint: `會下載對應的安裝檔。iPhone 需要 iOS ${V.minIos || 26} 以上。${T.osNote || ''}`, required: true, options: B.OS },
     { id: 'review', type: 'review', title: '確認一下。', hint: '沒問題就按下載，要改的話按「修改」。' },
     { id: 'done', type: 'done' },
   ];
@@ -39,7 +68,7 @@
 
   // ---------------------------------------------------------------- 外框
   root.innerHTML = `<div class="tf__bar" aria-hidden="true"><i></i></div>
-${B.api.preview ? '<p class="tf__preview">預覽模式：後端還沒接上，資料只存在這個瀏覽器，不會真的送出。</p>' : ''}
+${T.preview ? '<p class="tf__preview">預覽模式：後端還沒接上，資料只存在這個瀏覽器，不會真的送出。</p>' : ''}
 <button class="tf__close" type="button" aria-label="關閉表單（答案會保留）">✕</button>
 <div class="tf__stage"></div>
 <input class="tf__hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -51,6 +80,12 @@ ${B.api.preview ? '<p class="tf__preview">預覽模式：後端還沒接上，�
 
   // ---------------------------------------------------------------- 安裝說明
   function steps(os) {
+    if (APP === 'bango') return os === 'android' ? `<ol class="tf__steps">
+<li>下載完打開 <b>BanGo-${T.version}.apk</b>，依畫面提示允許安裝未知來源的 App。需要 64 位元（arm64）手機。</li>
+<li>打開校板，不用登入就能看公告。</li></ol>` : `<ol class="tf__steps">
+<li>下載的 <b>BanGo-${T.version}.ipa</b> 會存在「檔案」App 的「下載項目」。</li>
+<li>用 <a href="https://sideinstaller.net/" target="_blank" rel="noopener">SideInstaller</a> 以自己的 Apple ID 簽名安裝。iOS 27 以上直接在手機上就能裝，iOS 26 要先用電腦做一次配對檔。只從 sideinstaller.net 下載，sideinstaller.com 是假網站。</li>
+<li>打開校板就能看公告。免費 Apple ID 每 7 天要重簽一次。</li></ol>`;
     if (os === 'android') return `<ol class="tf__steps">
 <li>下載完打開 <b>JuanGo-${esc(V.version || '')}.apk</b>，依畫面提示允許安裝未知來源的 App。</li>
 <li>手機裡如果有<b>之前任何版本</b>的捲字（包括 0.2.1 build 13），要先刪掉再裝，因為這版改用正式版簽名。刪除前先登入讓進度同步，或到「設定 › 備份」匯出。</li>
@@ -77,10 +112,10 @@ ${B.api.preview ? '<p class="tf__preview">預覽模式：後端還沒接上，�
       const why = { used: '這個下載連結已經用過了，每個連結只能下載一次。', expired: '這個下載連結過期了（30 分鐘內有效）。',
                     invalid: '這不是有效的下載連結，可能是被轉傳或複製錯了。', error: '下載時出了一點問題，連結還可以再用。' }[LINK] || '';
       el.innerHTML = `${why ? `<p class="tf__note" role="status">${why}重新填一次，就能拿到新的下載連結。</p>` : ''}<h2 class="tf__title tf__title--lg">回答 4 個問題就能下載。</h2>
-<ul class="tf__rules"><li>大約 <b>30 秒</b>填完</li><li>填你之後要<b>登入捲字的 Email</b>，我們會把 Pro 開在這個帳號</li>
+<ul class="tf__rules"><li>大約 <b>30 秒</b>填完</li><li>${T.emailRule}</li>
 <li>填完拿到<b>你專屬的一次性下載連結</b>：iPhone 是 IPA，Android 是 APK</li></ul>
 <div class="tf__act"><button class="btn btn--lg tf__ok" type="button" data-start>${resume > 0 ? '繼續填寫' : '開始'}</button>${enter}</div>
-<p class="tf__fine">送出的資料只用來開 Pro 和聯絡你，詳見<a href="/privacy/#beta">隱私權政策</a>。</p>`;
+<p class="tf__fine">送出的資料只用來${T.use}，詳見<a href="${T.privacy}">隱私權政策</a>。</p>`;
       return el;
     }
     if (q.type === 'done') {
@@ -89,14 +124,14 @@ ${B.api.preview ? '<p class="tf__preview">預覽模式：後端還沒接上，�
       const action = used
         ? `<p class="tf__note">這個下載連結已經用過了（每個連結只能下載一次）。沒有下載成功的話，按下面拿一個新的。</p>
 <div class="tf__act"><button class="btn btn--lg" type="button" data-again>拿新的下載連結</button></div>`
-        : `<div class="tf__act"><button class="btn btn--lg" type="button" data-dl>${B.preview ? `模擬下載 ${file}` : `下載 ${file}`}</button><span class="tf__enter">沒有自動開始的話按這裡</span></div>
+        : `<div class="tf__act"><button class="btn btn--lg" type="button" data-dl>${T.preview ? `模擬下載 ${file}` : `下載 ${file}`}</button><span class="tf__enter">沒有自動開始的話按這裡</span></div>
 <p class="tf__fine">這是你專屬的一次性連結，只能下載一次，30 分鐘內有效，轉傳給別人也不能用。</p>`;
       el.innerHTML = `<div class="tf__check" aria-hidden="true">↓</div><h2 class="tf__title tf__title--lg" tabindex="-1">${esc(a.nickname)}，開始下載了。</h2>
-<p class="tf__hint">我們幫你開好 Pro 後，會寄信到 <b>${esc(a.email)}</b>。</p>
-${B.preview ? '<p class="tf__preview">預覽模式：不會真的下載。正式版會轉到 Supabase 私人空間 60 秒有效的下載網址。</p>' : ''}
+<p class="tf__hint">${T.doneHint(esc(a.email))}</p>
+${T.preview ? '<p class="tf__preview">預覽模式：不會真的下載。正式版會轉到 Supabase 私人空間 60 秒有效的下載網址。</p>' : ''}
 ${action}<p class="tf__err" id="tf-e-done" role="alert" hidden></p>
 <h3 class="tf__sub">${a.os === 'android' ? 'Android' : 'iPhone'} 安裝步驟</h3>${steps(a.os)}
-<p class="tf__fine"><button class="tlink tlink--sm" type="button" data-restart>用另一支手機下載</button>・<a href="/juango/">回到捲字介紹</a></p>`;
+<p class="tf__fine"><button class="tlink tlink--sm" type="button" data-restart>用另一支手機下載</button>・<a href="${T.page}">回到${T.name}介紹</a></p>`;
       return el;
     }
     el.setAttribute('aria-labelledby', `tf-t-${q.id}`);
@@ -216,7 +251,7 @@ ${a[q.id] ? `<div class="tf__act"><button class="btn tf__ok" type="button" data-
     btn.disabled = true;
     btn.textContent = '送出中…';
     try {
-      token = (await B.api.signup({ ...a, website: hp.value })).token || '';
+      token = (await B.api.signup({ ...a, website: hp.value }, APP)).token || '';
     } catch (err) {
       // 一次性連結要由伺服器發，送不出去就不能下載：留在確認頁顯示錯誤
       busy = false;
@@ -235,14 +270,14 @@ ${a[q.id] ? `<div class="tf__act"><button class="btn tf__ok" type="button" data-
   // 用一次性連結下載：beta-download 標成已用後轉到 60 秒有效的簽名網址（Content-Disposition: attachment，瀏覽器會下載而不是離開這頁）
   function download() {
     if (used || !token) return;
-    if (B.preview) {
-      const r = B.api.previewUse(token);
+    if (T.preview) {
+      const r = B.api.previewUse(token, APP);
       used = true;
       render();
       if (r !== 'ok') fail('這個下載連結已經用過或過期了。', 'done');
       return;
     }
-    const url = B.downloadUrl(token);
+    const url = B.downloadUrl(token, T.preview, APP);
     used = true;
     location.href = url;
     setTimeout(() => { if (QUESTIONS[i].type === 'done') render(); }, 1500);
@@ -252,7 +287,7 @@ ${a[q.id] ? `<div class="tf__act"><button class="btn tf__ok" type="button" data-
     b.disabled = true;
     b.textContent = '拿新的連結…';
     try {
-      token = (await B.api.signup({ ...a, website: hp.value })).token || '';
+      token = (await B.api.signup({ ...a, website: hp.value }, APP)).token || '';
       used = false;
       render();
       download();

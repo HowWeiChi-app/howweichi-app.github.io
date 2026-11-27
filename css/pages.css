@@ -25,7 +25,7 @@
 .doc__body > section { padding: 32px 0; border-top: 1px solid var(--hairline); }
 .doc__body > section:first-of-type { border-top: 0; }
 .doc__body h2 { font: 600 32px/1.15 var(--font-display); }
-.doc__body p, .doc__body li { color: var(--ink-80); line-height: 1.6; }
+.doc__body p, .doc__body li { color: var(--ink-80); line-height: 1.7; }
 .doc__body p { margin-top: 14px; }
 .doc__body ul { margin-top: 14px; display: grid; gap: 10px; }
 .doc__body li { position: relative; padding-left: 20px; }

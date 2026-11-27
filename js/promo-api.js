@@ -34,7 +34,7 @@
     }
     // 其他平台：任何公開貼文的 https 網址都收，平台從網域猜，猜不到算「其他」
     if (!/^https?:$/.test(u.protocol) || !host.includes('.') || u.username || u.password) return { error: '這不是網址，請從貼文的「分享 › 複製連結」貼上。' };
-    if (host.endsWith('github.io')) return { error: '這是官網的連結，請貼上你發的貼文的連結。' };
+    if (host.endsWith('github.io') || host === 'howweichi.me' || host.endsWith('.howweichi.me')) return { error: '這是官網的連結，請貼上你發的貼文的連結。' };
     if (!path || path === '/') return { error: '這是網站首頁，請貼上那一篇貼文的連結。' };
     if (/\/stor(y|ies)\b/i.test(path)) return { error: '這是限時動態的連結，限動不算。請發一則一般貼文再來申請。' };
     const qs = new URLSearchParams(u.search);

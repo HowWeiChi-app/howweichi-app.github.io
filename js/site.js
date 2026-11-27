@@ -129,6 +129,7 @@
       clearTimeout(timer);
       button.setAttribute('aria-expanded', String(open));
       button.setAttribute('aria-label', open ? '關閉選單' : '選單');
+      menu.classList.toggle('is-closing', !open);
       document.documentElement.classList.toggle('menu-open', open);
       if (open) {
         menu.style.setProperty('--menu-h', innerHeight - bar.getBoundingClientRect().top + 'px');
@@ -137,7 +138,7 @@
         menu.classList.add('is-open');
       } else {
         menu.classList.remove('is-open');
-        timer = setTimeout(() => { menu.open = false; }, still ? 0 : 480);
+        timer = setTimeout(() => { menu.open = false; menu.classList.remove('is-closing'); }, still ? 0 : 500);
       }
     };
     button.addEventListener('click', ev => { ev.preventDefault(); setOpen(!menu.classList.contains('is-open')); });

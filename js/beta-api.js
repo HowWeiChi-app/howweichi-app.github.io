@@ -7,6 +7,8 @@
   const C = P.config;
   const preview = !C.functionsUrl;
   const BETA = C.beta || {};
+  // 校板下載表單的後端已在 2026-11-27 上線。改回 false 的話校板表單一律用假後端，不會把資料送出去
+  const BANGO_READY = true;
 
   // ---------------------------------------------------------------- 檢查規則（supabase/functions/beta-signup 也照這些再檢查一次）
   // 「你在哪裡知道捲字的？」的選項。改這裡的話，Edge Function 的 SOURCES 也要一起改
@@ -32,7 +34,8 @@
   }
   // 一次性下載連結：beta-signup 回傳的 token 只能用一次、30 分鐘內有效。
   // beta-download 收到後先把 token 標成已用，再轉到 Supabase Storage 私人空間 60 秒有效的簽名網址。安裝檔不放公開網址。
-  const downloadUrl = token => (token && !preview ? `${C.functionsUrl}/beta-download?t=${encodeURIComponent(token)}` : '');
+  const downloadUrl = (token, mocked = preview, app = 'juango') => (token && !mocked
+    ? `${C.functionsUrl}/beta-download?t=${encodeURIComponent(token)}${app === 'juango' ? '' : `&app=${app}`}` : '');
 
   // ---------------------------------------------------------------- 呼叫 Edge Function
   const MESSAGES = {
@@ -66,32 +69,35 @@
 
   const api = {
     preview,
-    async signup(a) {
-      return call('beta-signup', { source: a.source, email: String(a.email || '').trim(), nickname: String(a.nickname || '').trim(), os: a.os,
-                                   website: a.website || '', turnstile: await P.turnstileToken().catch(() => '') });
+    // app 不填是捲字；捲字送出的內容和以前一樣
+    async signup(a, app = 'juango') {
+      const body = { source: a.source, email: String(a.email || '').trim(), nickname: String(a.nickname || '').trim(), os: a.os, website: a.website || '' };
+      if (app === 'juango') return call('beta-signup', { ...body, turnstile: await P.turnstileToken().catch(() => '') });
+      if (!BANGO_READY) return mock('beta-signup', body, undefined, `${DB}-${app}`);
+      return call('beta-signup', { ...body, app, turnstile: await P.turnstileToken().catch(() => '') });
     },
     list: key => call('beta-admin', { action: 'list' }, key),
     grant: (key, id) => call('beta-admin', { action: 'grant', id }, key),
     // 預覽模式模擬 beta-download：第一次 ok，之後 used，超過 30 分鐘 expired
-    previewUse(token) {
-      const db = load(), t = (db.tokens || {})[token];
+    previewUse(token, app = 'juango') {
+      const key = app === 'juango' ? DB : `${DB}-${app}`, db = load(key), t = (db.tokens || {})[token];
       if (!t) return 'not_found';
       if (t.used_at) return 'used';
       if (Date.now() > t.expires) return 'expired';
       t.used_at = Date.now();
-      save(db);
+      save(db, key);
       return 'ok';
     },
   };
 
   // ---------------------------------------------------------------- 預覽模式的假後端（跟 Edge Function 回一樣的格式）
   const DB = 'beta-preview-db';
-  const load = () => { try { return JSON.parse(localStorage.getItem(DB)) || { rows: [] }; } catch { return { rows: [] }; } };
-  const save = db => { try { localStorage.setItem(DB, JSON.stringify(db)); } catch {} };
+  const load = (key = DB) => { try { return JSON.parse(localStorage.getItem(key)) || { rows: [] }; } catch { return { rows: [] }; } };
+  const save = (db, key = DB) => { try { localStorage.setItem(key, JSON.stringify(db)); } catch {} };
   function fail(code, field) { throw new P.ApiError(code, MESSAGES[code] || MESSAGES.invalid, field); }
-  async function mock(name, body, key) {
+  async function mock(name, body, key, store = DB) {
     await new Promise(r => setTimeout(r, 450));
-    const db = load();
+    const db = load(store);
     if (name === 'beta-signup') {
       const email = body.email.toLowerCase();
       if (body.website) return { ok: true, token: 'bot' };  // 機器人填了隱藏欄位：假裝成功
@@ -105,7 +111,7 @@
                           created_at: new Date().toISOString(), pro_granted_at: null });
       const token = 'preview-' + crypto.randomUUID();
       db.tokens = { ...(db.tokens || {}), [token]: { os: body.os, expires: Date.now() + 30 * 60_000, used_at: null } };
-      save(db);
+      save(db, store);
       return { ok: true, token, expires_in: 1800 };
     }
     if (name === 'beta-admin') {
@@ -123,5 +129,5 @@
     fail('invalid');
   }
 
-  window.Beta = { config: BETA, api, MESSAGES, SOURCES, OS, NAME_MAX, checkName, checkEmail: P.checkEmail, label, guessOs, downloadUrl, preview };
+  window.Beta = { config: BETA, api, MESSAGES, SOURCES, OS, NAME_MAX, checkName, checkEmail: P.checkEmail, label, guessOs, downloadUrl, preview, bangoReady: BANGO_READY };
 })();
