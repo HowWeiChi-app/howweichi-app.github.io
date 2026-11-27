@@ -20,7 +20,8 @@
 .ph-tilt { perspective: 900px; animation: phfade .95s var(--ease) both; }
 @keyframes phfade { from { opacity: 0; } }
 @keyframes phrise { from { translate: 0 72px; } }
-/* filter 會把 3D 壓平，這支手機不能用投影，機身厚度才看得到；側鍵放在厚度中間 */
+/* filter、isolation、clip-path、overflow、opacity 放在這支手機本身都會把 3D 壓平（變紙片），
+   所以這支手機不能用投影，也要把 .device 的 isolation 關掉，機身厚度才看得到；側鍵放在厚度中間 */
 .ph-tilt .dv-b { transform: translateZ(calc(var(--w, 280px) * -.06)); }
 /* 正面每一層都要明確排在側面前面，否則金屬框會被側面蓋住 */
 .ph-tilt .dv-z[style="--z:0"] { background: var(--dv-metal); transform: translateZ(.1px); }
@@ -29,8 +30,7 @@
 .ph-tilt .device::after { transform: translateZ(.4px); }
 .ph-tilt .device > img { transform: translateZ(.5px); }
 .ph-tilt .dv-cam { transform: translateZ(.6px); }
-.ph-tilt .device { --w: 300px; left: calc(50% - 156px); top: 0; box-shadow: none; filter: none; transform-style: preserve-3d; transform: rotateY(-30deg) rotateX(7deg) rotateZ(3deg); animation: phrise .95s var(--ease) both, sway 7s 1s ease-in-out infinite alternate; }
-@keyframes sway { to { transform: rotateY(-20deg) rotateX(3deg) rotateZ(1deg); } }
+.ph-tilt .device { --w: 300px; left: calc(50% - 156px); top: 0; box-shadow: none; filter: none; isolation: auto; transform-style: preserve-3d; transform: rotateY(-30deg) rotateX(7deg) rotateZ(3deg); animation: phrise .95s var(--ease) both; }
 .ph-hang .device { --w: 310px; left: calc(50% - 155px); bottom: 24px; animation-name: hang; }
 @keyframes hang { from { opacity: 0; translate: 0 -72px; } }
 .acard--flip .acard__head { margin-top: auto; padding-bottom: 0; }
