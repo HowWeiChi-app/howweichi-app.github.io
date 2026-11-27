@@ -106,8 +106,8 @@
 .tip { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 48px; align-items: center; }
 .tip p { margin-top: 20px; max-width: 620px; color: var(--ink-80); }
 .tip__badge { display: grid; place-items: center; gap: 10px; aspect-ratio: 1; border-radius: 50%; background: var(--k); color: var(--y); text-align: center; }
-.tip__badge span { font-size: 64px; line-height: 1; margin-top: 40px; }
-.tip__badge b { margin-bottom: 52px; font-size: 17px; }
+.tip__badge svg { width: 132px; height: 132px; margin-top: 28px; }
+.tip__badge b { margin-bottom: 40px; font-size: 17px; }
 
 /* ------------------------------------------------ 窄螢幕 */
 @media (max-width: 1068px) {
@@ -130,8 +130,8 @@
   .plan__price b { font-size: 38px; }
   .tip { grid-template-columns: 1fr; gap: 28px; }
   .tip__badge { width: 180px; justify-self: center; }
-  .tip__badge span { font-size: 48px; margin-top: 30px; }
-  .tip__badge b { margin-bottom: 38px; }
+  .tip__badge svg { width: 100px; height: 100px; margin-top: 20px; }
+  .tip__badge b { margin-bottom: 22px; }
   .bk { padding: 22px 20px; }
   .bk__text { font-size: 16px; }
   .tbl th, .tbl td { padding: 10px 12px; }

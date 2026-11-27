@@ -60,6 +60,34 @@
   .nr-grid .nr-card:not(.nr-card--lead) time { margin-top: 0; padding-top: 12px; font-size: 13px; }
 }
 
+/* 內文頁下方的「更多消息」：每一則同樣高度、左圖右文，標題、摘要和縮圖上的字都只排一行，放不下用 … */
+.nr-grid.nr-grid--more { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+/* 這一區底色是 --tint，卡片改用 --canvas 才分得出一則一則 */
+.nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) { flex-direction: row; height: 136px; border-radius: 18px; background: var(--canvas); }
+.nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) .nr-cover { flex: 0 0 200px; height: 100%; min-height: 0; aspect-ratio: auto; }
+.nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) .nr-text { min-width: 0; justify-content: center; padding: 0 24px; }
+.nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) .nr-text > * { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) h3 { margin-top: 4px; font-size: 19px; line-height: 1.5; }
+.nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) .nr-sum { display: block; margin-top: 2px; }
+.nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) time { margin-top: 0; padding-top: 6px; font-size: 13px; }
+.nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) .nr-focus--whole .device { top: 8%; width: auto; height: 84%; }
+.nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) .nr-focus--top .device { top: 10%; width: 56%; height: auto; }
+.nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) .nr-cover--duo .device { top: 8%; height: 108%; }
+.nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) .nr-cover--icon img { width: auto; height: 56%; }
+.nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) .nr-word { gap: 4cqw; padding: 0 4cqw; }
+.nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) .nr-word b { font-size: 15cqw; white-space: nowrap; }
+.nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) .nr-word span { display: block; font-size: 9cqw; white-space: nowrap; }
+.nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) .nr-cover--code b { grid-template-columns: repeat(8, 10cqw); gap: 1.2cqw; }
+.nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) .nr-cover--code i { height: 15cqw; border-radius: 2.4cqw; font-size: 7cqw; }
+@media (max-width: 734px) {
+  .nr-grid.nr-grid--more { gap: 16px; }
+  .nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) { height: 112px; }
+  .nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) .nr-cover { flex-basis: 108px; }
+  .nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) .nr-text { padding: 0 14px; }
+  .nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) h3 { font-size: 16px; }
+  .nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) .nr-sum { display: none; }
+}
+
 /* 內文頁 */
 .nr-article { padding: 56px 0 88px; }
 .nr-head, .nr-body { width: min(87.5%, 720px); margin-inline: auto; }
