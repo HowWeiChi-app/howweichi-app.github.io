@@ -1,1 +1,20 @@
 .DS_Store
+
+# 後台和金鑰不能進這個公開 repo（commit／push 前的隱私檢查也會擋，規則見專案根目錄 tools/git-hooks/）
+admin/
+admin-*/
+admin_*/
+beta-admin/
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+*.p8
+*.keystore
+*.jks
+id_rsa*
+id_ed25519*
+id_ecdsa*
+.dia-cowork/
