@@ -4,9 +4,9 @@
 .nr .filters + .nr-box, .nr .shead + .nr-box { margin-top: 40px; }
 .nr .nr-box + .links { margin-top: 40px; }
 .nr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: clamp(20px, 2.6cqw, 28px); }
-.nr-card { container-type: inline-size; display: flex; flex-direction: column; min-width: 0; overflow: hidden; border-radius: 24px; background: var(--tint); color: var(--ink); transition: transform .3s var(--ease), box-shadow .3s var(--ease); }
+.nr-card { container-type: inline-size; display: flex; flex-direction: column; min-width: 0; overflow: hidden; background: var(--tint); color: var(--ink); transition: transform .3s var(--ease); }
 .nr-card:hover { text-decoration: none; }
-@media (hover: hover) { .nr-card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(38, 36, 33, .12); } }
+@media (hover: hover) { .nr-card:hover { transform: translateY(-3px); } }
 .nr-cover { container-type: inline-size; position: relative; display: block; aspect-ratio: 16 / 10; overflow: hidden; }
 .nr-cover .device { position: absolute; left: 50%; translate: -50% 0; display: block; }
 /* 重點在畫面中間：整支手機放進來 */
@@ -43,7 +43,7 @@
 /* 手機和窄視窗：第一則維持大卡，其他改成左圖右文，一個畫面看得到更多則 */
 /* 要指定 nrbox：每張卡片自己也是容器，不指定的話桌面版的小卡也會套到手機樣式 */
 @container nrbox (max-width: 699px) {
-  .nr-grid .nr-card:not(.nr-card--lead) { flex-direction: row; border-radius: 18px; }
+  .nr-grid .nr-card:not(.nr-card--lead) { flex-direction: row; }
   .nr-grid .nr-card:not(.nr-card--lead) .nr-cover { flex: 0 0 31%; aspect-ratio: auto; min-height: 148px; }
   .nr-grid .nr-card:not(.nr-card--lead) .nr-focus--top .device { width: 76%; }
   .nr-grid .nr-card:not(.nr-card--lead) .nr-cover--duo .device { height: 78%; top: 9%; }
@@ -63,7 +63,7 @@
 /* 內文頁下方的「更多消息」：每一則同樣高度、左圖右文，標題、摘要和縮圖上的字都只排一行，放不下用 … */
 .nr-grid.nr-grid--more { grid-template-columns: minmax(0, 1fr); gap: 20px; }
 /* 這一區底色是 --tint，卡片改用 --canvas 才分得出一則一則 */
-.nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) { flex-direction: row; height: 136px; border-radius: 18px; background: var(--canvas); }
+.nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) { flex-direction: row; height: 136px; background: var(--canvas); }
 .nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) .nr-cover { flex: 0 0 200px; height: 100%; min-height: 0; aspect-ratio: auto; }
 .nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) .nr-text { min-width: 0; justify-content: center; padding: 0 24px; }
 .nr-grid.nr-grid--more .nr-card:not(.nr-card--lead) .nr-text > * { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
@@ -97,7 +97,7 @@
 .nr-article h1 { margin-top: 8px; font-size: clamp(30px, 5.4vw, 52px); line-height: 1.2; }
 .nr-article h1::after { content: none; }
 .nr-lede { margin-top: 18px; color: var(--ink-80); font: 600 clamp(18px, 2.4vw, 22px)/1.55 var(--font-display); }
-.nr-hero { width: min(87.5%, 1000px); margin: 36px auto 0; aspect-ratio: 2 / 1; border-radius: 28px; }
+.nr-hero { width: min(87.5%, 1000px); margin: 36px auto 0; aspect-ratio: 2 / 1; }
 .nr-hero.nr-focus--top .device { width: auto; height: 132%; }
 .nr-hero .nr-word b { font-size: min(13cqw, 120px); }
 .nr-hero .nr-word span { font-size: min(4.6cqw, 34px); }
@@ -121,6 +121,6 @@
   .nr { padding-top: 40px; }
   .nr .shead + .nr-box { margin-top: 28px; }
   .nr-article { padding: 32px 0 64px; }
-  .nr-hero { aspect-ratio: 4 / 3; border-radius: 22px; }
+  .nr-hero { aspect-ratio: 4 / 3; }
 }
 @media (prefers-reduced-motion: reduce) { .nr-card { transition: none; } }

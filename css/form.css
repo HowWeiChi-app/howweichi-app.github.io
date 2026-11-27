@@ -2,8 +2,8 @@
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 html.tf-lock, html.tf-lock body { overflow: hidden; }
 
-.tf { --sq: 46px; position: relative; display: flex; flex-direction: column; min-height: 600px; padding: 56px 72px 88px;
-  border-radius: 50px; background: var(--canvas); color: var(--ink); overflow: hidden; corner-shape: squircle; }
+.tf { position: relative; display: flex; flex-direction: column; min-height: 600px; padding: 56px 72px 88px;
+  background: var(--canvas); color: var(--ink); overflow: hidden; }
 .tf__bar { position: absolute; left: 0; right: 0; top: 0; height: 4px; background: var(--hairline); }
 .tf__bar i { display: block; height: 100%; background: var(--r); transform: scaleX(0); transform-origin: left; transition: transform .4s var(--ease); }
 .tf[data-step="welcome"] .tf__bar, .tf[data-step="welcome"] .tf__nav, .tf[data-step="review"] .tf__nav, .tf[data-step="done"] .tf__nav { visibility: hidden; }
@@ -107,7 +107,7 @@ button.btn:disabled { opacity: .55; cursor: default; }
 
 @media (max-width: 1068px) { .tf { padding: 48px 48px 88px; } }
 @media (max-width: 734px) {
-  .tf { min-height: 560px; padding: 36px 22px 84px; border-radius: 28px; }
+  .tf { min-height: 560px; padding: 36px 22px 84px; }
   .tf__title { font-size: 28px; line-height: 1.2; }
   .tf__title--lg { font-size: 32px; }
   .tf__hint { font-size: 17px; }
@@ -128,7 +128,7 @@ button.btn:disabled { opacity: .55; cursor: default; }
 
 /* ------------------------------------------------ 兌換頁 */
 .redeem { min-height: 70vh; }
-.rd { --sq: 46px; max-width: 640px; margin: 0 auto; padding: 48px; border-radius: 40px; background: var(--tint); corner-shape: squircle; }
+.rd { max-width: 640px; margin: 0 auto; padding: 48px; background: var(--tint); }
 .rd__title { margin-top: 8px; font-size: 48px; line-height: 1.1; }
 .rd__title::after { display: none; }
 .rd__lead { margin-top: 14px; color: var(--ink-80); font-size: 19px; line-height: 1.45; }
@@ -151,7 +151,7 @@ button.btn:disabled { opacity: .55; cursor: default; }
   .rd__err-inline { color: #ffb4bf; }
 }
 @media (max-width: 734px) {
-  .rd { padding: 28px 22px; border-radius: 28px; }
+  .rd { padding: 28px 22px; }
   .rd__title { font-size: 34px; }
   .rd__code code { font-size: 20px; }
 }
@@ -161,7 +161,7 @@ button.btn:disabled { opacity: .55; cursor: default; }
 .tf--page { min-height: calc(100svh - 52px - 96px); }
 .tf--page .tf__stage { max-width: 760px; }
 .tf--page.tf--full { position: fixed; z-index: 40; left: 0; right: 0; top: var(--vvt, 0); height: var(--vvh, 100dvh); min-height: 0; padding: 72px 72px 96px;
-  border-radius: 0; overflow-y: auto; overscroll-behavior: contain; corner-shape: round; }
+  border-radius: 0; overflow-y: auto; overscroll-behavior: contain; corner-shape: round; clip-path: none; }
 .tf--page.tf--full .tf__stage { align-items: center; }
 .tf--page.tf--full .tf__close { position: absolute; top: 16px; right: 16px; display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 50%;
   background: var(--tint); color: var(--ink); font-size: 16px; cursor: pointer; }
