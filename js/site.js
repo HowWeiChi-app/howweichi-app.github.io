@@ -1,6 +1,8 @@
 // 橫向卡片、焦點卡輪播、依裝置篩選、手機選單，以及卡片進入畫面才播放動畫
 (() => {
   document.documentElement.classList.add('js');
+  // iPhone Safari 要頁面有聽觸控事件，:active 的按下效果才會出現
+  document.addEventListener('touchstart', () => {}, { passive: true });
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   document.querySelectorAll('[data-rail]').forEach(rail => {
@@ -131,6 +133,8 @@
       button.setAttribute('aria-label', open ? '關閉選單' : '選單');
       menu.classList.toggle('is-closing', !open);
       document.documentElement.classList.toggle('menu-open', open);
+      const tint = document.querySelector('meta[name="theme-color"]:not([media])');
+      if (tint) { tint.dataset.base ||= tint.content; tint.content = open ? '#ffcf00' : tint.dataset.base; }
       if (open) {
         menu.style.setProperty('--menu-h', innerHeight - bar.getBoundingClientRect().top + 'px');
         menu.open = true;
