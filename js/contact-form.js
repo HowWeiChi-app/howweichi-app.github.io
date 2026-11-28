@@ -7,7 +7,7 @@
   if (!root || !P) return;
   const C = P.config;
   // 後端（23_聯絡表單.sql 和 Edge Function contact-send）部署好之後改成 true。false 的時候本機是預覽模式，正式網站只顯示 Email 和 Instagram
-  const CONTACT_READY = false;
+  const CONTACT_READY = true;
   const preview = !C.functionsUrl || !CONTACT_READY;
   const mailto = `<a href="mailto:${C.contactEmail}">${C.contactEmail}</a>`;
   const ig = `<a href="${C.instagram}" target="_blank" rel="noopener">@howweichi.co</a>`;
