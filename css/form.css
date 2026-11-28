@@ -37,7 +37,12 @@ html.tf-lock, html.tf-lock body { overflow: hidden; }
 .tf__in::placeholder { color: var(--gray); opacity: .6; }
 .tf__in:focus { outline: none; border-bottom-color: var(--r); }
 .tf__in[aria-invalid] { border-bottom-color: var(--r); }
-.tf__err { display: flex; gap: 6px; margin-top: 12px; padding: 8px 12px; border-radius: 10px; background: var(--blush); color: var(--r); font-size: 15px; font-weight: 500; line-height: 1.4; }
+/* 聯絡表單的內容欄：多行，用框代替底線 */
+.tf__area { min-height: 150px; resize: none; padding: 14px 16px; border: 1.5px solid var(--hairline); border-radius: 16px; background: var(--tint); font-size: 19px; line-height: 1.5; }
+.tf__area:focus, .tf__area[aria-invalid] { border-color: var(--r); }
+.tf__count { margin-top: 6px; color: var(--muted); font-size: 13px; text-align: right; }
+.tf__review .tf__long { max-height: 7.5em; overflow-y: auto; white-space: pre-wrap; }
+.tf__err { display: flex; gap: 6px;margin-top: 12px; padding: 8px 12px; border-radius: 10px; background: var(--blush); color: var(--r); font-size: 15px; font-weight: 500; line-height: 1.4; }
 .tf__err::before { content: "!"; display: grid; place-items: center; flex: none; width: 18px; height: 18px; margin-top: 1px; border-radius: 50%; background: var(--r); color: #fff; font-size: 12px; font-weight: 700; }
 .shake { animation: shake .4s ease; }
 @keyframes shake { 20%, 60% { transform: translateX(-7px); } 40%, 80% { transform: translateX(7px); } }
@@ -102,6 +107,7 @@ button.btn:disabled { opacity: .55; cursor: default; }
   .tf__err { color: #ffb4bf; }
   .tf__err::before { background: #ffb4bf; color: var(--k); }
   .tf__chk input { accent-color: var(--y); }
+  .tf__area:focus, .tf__area[aria-invalid] { border-color: var(--y); }
   .tf__check { background: var(--y); color: var(--k); }
 }
 
@@ -112,6 +118,7 @@ button.btn:disabled { opacity: .55; cursor: default; }
   .tf__title--lg { font-size: 32px; }
   .tf__hint { font-size: 17px; }
   .tf__in { font-size: 22px; }
+  .tf__area { font-size: 17px; }
   .tf__enter, .tf__keys { display: none; }
   .tf__opts { max-width: none; }
   .tf__rules li { font-size: 16px; }

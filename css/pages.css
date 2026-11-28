@@ -38,6 +38,11 @@
 .facts > div { padding: 22px; background: var(--tint); }
 .facts b { font: 600 19px/1.25 var(--font-display); color: var(--ink); }
 .facts p { margin-top: 6px; color: var(--ink-80); font-size: 15px; line-height: 1.5; }
+.sec--tint .facts > div { background: var(--canvas); }
+/* 區塊標題下面接內容時的留白，跟常見問題一樣 */
+.shead + .facts, .shead + .tbl { margin-top: 40px; }
+.lede { max-width: 720px; margin-top: 24px; color: var(--ink-80); font-size: 19px; line-height: 1.6; }
+.tbl + .links { margin-top: 40px; }
 
 /* 表格外框也是超圓角：外層底色當 1px 框線，內層負責左右捲動；兩層用跟卡片一樣的超圓角（見 site.css 的 --card-sq） */
 .tbl { margin-top: 16px; padding: 1px; background: var(--hairline); }

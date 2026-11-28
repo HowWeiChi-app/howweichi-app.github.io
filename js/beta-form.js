@@ -100,7 +100,7 @@ ${T.preview ? '<p class="tf__preview">預覽模式：後端還沒接上，資料
   // ---------------------------------------------------------------- 每一題的畫面
   const enter = '<span class="tf__enter" aria-hidden="true">按 Enter ↵</span>';
   function head(q, n) {
-    return `<p class="tf__num" aria-hidden="true">${n} <span>→</span></p><h2 class="tf__title" id="tf-t-${q.id}">${q.title}</h2>`
+    return (n ? `<p class="tf__num" aria-hidden="true">${n} <span>→</span></p>` : '') + `<h2 class="tf__title" id="tf-t-${q.id}">${q.title}</h2>`
       + (q.hint ? `<p class="tf__hint" id="tf-h-${q.id}">${q.hint}</p>` : '');
   }
   function build(k) {

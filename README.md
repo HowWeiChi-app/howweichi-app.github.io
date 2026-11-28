@@ -14,6 +14,10 @@ HowWeiChi 開發者官網介紹捲字 JuanGo 和校板 BanGo，並提供下載�
 | `pro/` | Pro 方案介紹（不賣訂閱，付款都在 App 裡） |
 | `privacy/`、`terms/`、`support/` | 隱私權政策、服務條款、支援和刪除帳號說明（商店審核用） |
 | `free-year/`、`redeem/`、`promo-terms/` | 「發一篇文，免費用一年」活動頁、兌換頁和活動辦法 |
+| `contact/` | 聯絡表單（一次一題，`js/contact-form.js`；後端 `contact-send` 部署後把 `CONTACT_READY` 改成 `true`） |
+| `about/` | 關於我們 |
+| `sources/` | 資料來源與授權。字庫來源要跟捲字 App 的「關於與授權」一致；校板的學校清單要跟爬蟲的 `schools.py` 一致 |
+| `404.html` | 找不到頁面時顯示（GitHub Pages 自動使用），裡面的路徑都要從 `/` 開始 |
 | `news/` | 最新消息列表和內文頁，由上一層的 `tools/news.py` 產生（內文在 `tools/news_articles.py`），不要直接改 |
 | `js/updates.json` | 首頁「最新進度」和最新消息頁的資料；改完要執行 `python3 tools/news.py` |
 | `img/og/` | 社群分享預覽圖（1200×630，由上一層的 `tools/og_images.swift` 產生） |
