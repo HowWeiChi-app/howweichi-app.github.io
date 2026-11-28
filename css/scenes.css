@@ -445,8 +445,18 @@
 }
 /* 遮罩會切掉 box-shadow，這兩個的底色改放在偽元素，陰影和外圈才留得住 */
 .ring, .sy-o { border-radius: 0; background: none; box-shadow: none; }
-.ring { filter: drop-shadow(0 12px 15px rgba(38, 36, 33, .24)); }
+/* 這裡不要加 drop-shadow：Safari 會把陰影切在方框裡，圓角圖示後面露出一塊方形 */
 .sy-o { position: relative; isolation: isolate; }
 .ring::before, .sy-o::before, .sy-o::after { content: ""; position: absolute; z-index: -1; }
 .ring::before, .sy-o::after { inset: 0; background: var(--tile); }
 .sy-o::before { inset: -6px; background: var(--g); }
+
+/* 兩指放大時停掉卡片裡的動畫（js/site.js 加 .zoomed）。每個動畫中的元素都是一張獨立圖層，
+   要用放大後的解析度重畫；首頁那排卡片放大 3 倍時圖層超過 600MB，iPhone 記憶體不夠網頁就崩潰。 */
+.zoomed .scene, .zoomed .scene *, .zoomed .scene *::before, .zoomed .scene *::after,
+.zoomed .mini *, .zoomed .mini *::before, .zoomed .mini *::after, .zoomed .more .glyph, .zoomed .rv { animation: none !important; will-change: auto !important; }
+/* 3D（透視、翻面）就算停住也會讓整排卡片各自變成圖層，放大時改成平面，只留正面 */
+.zoomed .scene, .zoomed .scene * { perspective: none !important; transform-style: flat !important; backface-visibility: visible !important; -webkit-backface-visibility: visible !important; }
+.zoomed .fl-b { display: none; }
+.zoomed .sc-gate span { display: none; }
+.zoomed .sc-gate .go { display: block; left: auto; right: calc(var(--l) * 20px + 16px); }

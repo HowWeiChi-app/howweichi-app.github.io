@@ -5,6 +5,14 @@
   document.addEventListener('touchstart', () => {}, { passive: true });
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // 兩指放大時在 <html> 加上 zoomed，讓 CSS 停掉卡片裡的動畫（省記憶體，不然 iPhone 會崩潰）。
+  // 第二根手指一碰到就先停，放大結束後還停在原本大小才恢復
+  const root = document.documentElement;
+  const syncZoom = () => root.classList.toggle('zoomed', (window.visualViewport?.scale || 1) > 1.05);
+  addEventListener('touchstart', e => { if (e.touches.length > 1) root.classList.add('zoomed'); }, { passive: true });
+  ['touchend', 'touchcancel'].forEach(n => addEventListener(n, e => { if (!e.touches.length) setTimeout(syncZoom, 400); }, { passive: true }));
+  window.visualViewport?.addEventListener('resize', syncZoom);
+
   document.querySelectorAll('[data-rail]').forEach(rail => {
     const track = rail.querySelector('.rail__track');
     const prev = rail.querySelector('[data-go="-1"]');
