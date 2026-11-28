@@ -9,7 +9,6 @@ HowWeiChi 開發者官網介紹捲字 JuanGo 和校板 BanGo，並提供下載�
 | `index.html` | 首頁 |
 | `juango/` | 捲字 JuanGo 介紹頁 |
 | `bango/` | 校板 BanGo 介紹頁 |
-| `xiaoban/` | 舊網址，自動導向 `bango/` |
 | `download/juango/` | 捲字測試版下載引導（一次一題，發一次性下載連結） |
 | `download/bango/` | 校板測試版下載引導，和捲字共用 `js/beta-form.js` |
 | `pro/` | Pro 方案介紹（不賣訂閱，付款都在 App 裡） |
