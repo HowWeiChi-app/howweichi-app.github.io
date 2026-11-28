@@ -12,7 +12,7 @@ window.PROMO_CONFIG = {
   "reviewDays": 3,
   "startsAt": "2026-12-20T00:00:00+08:00",
   "startLabel": "2026 年 12 月 20 日",
-  "contactEmail": "howweichi67@gmail.com",
+  "contactEmail": "contact@howweichi.me",
   "instagram": "https://www.instagram.com/howweichi.co",
   "beta": {
     "version": "0.2.1",
